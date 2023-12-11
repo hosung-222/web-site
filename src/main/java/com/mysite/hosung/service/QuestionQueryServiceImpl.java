@@ -1,8 +1,10 @@
 package com.mysite.hosung.service;
 
+import com.mysite.hosung.apiPayload.DataNotFoundException;
 import com.mysite.hosung.domain.Question;
 import com.mysite.hosung.repository.QuestionRepository;
 import java.util.List;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,5 +18,16 @@ public class QuestionQueryServiceImpl implements QuestionQueryService{
     @Override
     public List<Question> getQuestionList() {
         return questionRepository.findAll();
+    }
+
+    @Override
+    public Question getQuestion(Long id) {
+        Optional<Question> question = questionRepository.findById(id);
+        if (question.isPresent()){
+            return question.get();
+        }else {
+            throw new DataNotFoundException("question not found");
+        }
+
     }
 }

@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface QuestionQueryService {
     List<Question> getQuestionList();
+
+    Question getQuestion(Long id);
 }
