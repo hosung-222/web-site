@@ -1,4 +1,4 @@
-package com.mysite.hosung.service;
+package com.mysite.hosung.service.questionService;
 
 import com.mysite.hosung.apiPayload.DataNotFoundException;
 import com.mysite.hosung.domain.Question;

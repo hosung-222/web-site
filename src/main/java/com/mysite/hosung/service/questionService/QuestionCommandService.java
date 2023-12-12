@@ -1,4 +1,4 @@
-package com.mysite.hosung.service;
+package com.mysite.hosung.service.questionService;
 
 import com.mysite.hosung.web.dto.QuestionRequestDTO;
 

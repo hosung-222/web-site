@@ -1,7 +1,7 @@
 package com.mysite.hosung.web.controller;
 
-import com.mysite.hosung.service.AnswerCommandService;
-import com.mysite.hosung.service.QuestionQueryService;
+import com.mysite.hosung.service.answerService.AnswerCommandService;
+import com.mysite.hosung.service.questionService.QuestionQueryService;
 import com.mysite.hosung.web.dto.AnswerRequestDTO;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -11,7 +11,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequiredArgsConstructor
