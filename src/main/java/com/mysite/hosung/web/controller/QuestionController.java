@@ -3,6 +3,7 @@ package com.mysite.hosung.web.controller;
 import com.mysite.hosung.domain.Question;
 import com.mysite.hosung.service.QuestionCommandService;
 import com.mysite.hosung.service.QuestionQueryService;
+import com.mysite.hosung.web.dto.AnswerRequestDTO;
 import com.mysite.hosung.web.dto.QuestionRequestDTO;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -30,7 +31,8 @@ public class QuestionController {
     }
 
     @GetMapping("/detail/{id}")
-    public String detail(Model model, @PathVariable("id") Long id){
+    public String detail(Model model, @PathVariable("id") Long id,
+                         AnswerRequestDTO.AnswerFormDTO answerFormDTO){
         Question question = questionQueryService.getQuestion(id);
         model.addAttribute("question", question);
         return "question_detail";
