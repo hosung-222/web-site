@@ -2,6 +2,7 @@ package com.mysite.hosung.web.dto;
 
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,6 +12,7 @@ public class QuestionRequestDTO {
 
     @Getter
     @Setter
+    @Builder
     public static class QuestionFormDTO{
         @NotEmpty(message = "제목은 필수항목입니다.")
         @Size(max=200)
