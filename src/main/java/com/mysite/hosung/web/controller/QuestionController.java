@@ -6,6 +6,7 @@ import com.mysite.hosung.service.questionService.QuestionQueryService;
 import com.mysite.hosung.web.dto.AnswerRequestDTO;
 import com.mysite.hosung.web.dto.QuestionRequestDTO;
 import jakarta.validation.Valid;
+import java.security.Principal;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -44,11 +45,12 @@ public class QuestionController {
 
     @PostMapping("/create")
     public String createQuestion(@Valid QuestionRequestDTO.QuestionFormDTO questionFormDTO,
-                                 BindingResult bindingResult){
+                                 BindingResult bindingResult,
+                                 Principal principal){
         if (bindingResult.hasErrors()){
             return "question_form";
         }
-        questionCommandService.create(questionFormDTO);
+        questionCommandService.create(questionFormDTO, principal);
         return "redirect:/question/list";
     }
 

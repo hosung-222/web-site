@@ -2,6 +2,7 @@ package com.mysite.hosung;
 
 import com.mysite.hosung.service.questionService.QuestionCommandService;
 import com.mysite.hosung.web.dto.QuestionRequestDTO;
+import java.security.Principal;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +28,7 @@ class CastleApplicationTests {
 					.subject(suject)
 					.content(content)
 					.build();
-			questionCommandService.create(questionFormDTO);
+			questionCommandService.create(questionFormDTO, null);
 		}
 	}
 
