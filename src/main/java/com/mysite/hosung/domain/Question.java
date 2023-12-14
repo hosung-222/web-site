@@ -1,6 +1,7 @@
 package com.mysite.hosung.domain;
 
 import com.mysite.hosung.domain.common.BaseEntity;
+import com.mysite.hosung.web.dto.QuestionRequestDTO.QuestionFormDTO;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -35,4 +36,9 @@ public class Question extends BaseEntity {
 
     @ManyToOne
     private User author;
+
+    public void modify(QuestionFormDTO questionFormDTO){
+        this.subject = questionFormDTO.getSubject();
+        this.content = questionFormDTO.getContent();
+    }
 }

@@ -5,6 +5,7 @@ import com.mysite.hosung.domain.User;
 import com.mysite.hosung.repository.QuestionRepository;
 import com.mysite.hosung.service.userService.UserQueryService;
 import com.mysite.hosung.web.dto.QuestionRequestDTO;
+import com.mysite.hosung.web.dto.QuestionRequestDTO.QuestionFormDTO;
 import java.security.Principal;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -27,4 +28,12 @@ public class QuestionCommandServiceImpl implements QuestionCommandService{
                         .author(author)
                 .build());
     }
+
+    @Override
+    public void modify(Question question, QuestionFormDTO questionFormDTO) {
+        question.modify(questionFormDTO);
+        questionRepository.save(question);
+    }
+
+
 }

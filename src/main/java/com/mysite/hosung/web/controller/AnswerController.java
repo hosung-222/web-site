@@ -22,7 +22,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class AnswerController {
     private final AnswerCommandService answerCommandService;
     private final QuestionQueryService questionQueryService;
-    private final UserQueryService userQueryService;
 
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/create/{id}")
