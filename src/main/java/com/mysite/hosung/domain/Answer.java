@@ -26,4 +26,7 @@ public class Answer extends BaseEntity {
 
     @ManyToOne
     private Question question;
+
+    @ManyToOne
+    private User author;
 }
