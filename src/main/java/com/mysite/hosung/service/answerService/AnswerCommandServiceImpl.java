@@ -18,7 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 @Transactional
 public class AnswerCommandServiceImpl implements AnswerCommandService {
-
+    private final AnswerQueryService answerQueryService;
     private final UserQueryService userQueryService;
     private final QuestionQueryService questionQueryService;
     private final AnswerRepository answerRepository;
@@ -39,14 +39,14 @@ public class AnswerCommandServiceImpl implements AnswerCommandService {
 
     @Override
     public void modify(Long id, AnswerRequestDTO.AnswerFormDTO answerFormDTO) {
-        Optional<Answer> target = answerRepository.findById(id);
-        if (target.isPresent()){
-            Answer answer = target.get();
-            answer.modify(answerFormDTO.getContent());
-            answerRepository.save(answer);
+        Answer answer = answerQueryService.getAnswer(id);
+        answer.modify(answerFormDTO.getContent());
+        answerRepository.save(answer);
+    }
 
-        }else {
-            throw new DataNotFoundException("answer not found");
-        }
+    @Override
+    public void delete(Long id) {
+        Answer answer = answerQueryService.getAnswer(id);
+        answerRepository.delete(answer);
     }
 }

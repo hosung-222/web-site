@@ -9,4 +9,6 @@ public interface AnswerCommandService {
     void create(AnswerRequestDTO.AnswerFormDTO answerFormDTO, Long id, Principal principal);
 
     void modify(Long id, AnswerRequestDTO.AnswerFormDTO answerFormDTO);
+
+    void delete(Long id);
 }
