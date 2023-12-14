@@ -2,9 +2,12 @@ package com.mysite.hosung.service.answerService;
 
 import com.mysite.hosung.domain.Answer;
 import com.mysite.hosung.domain.Question;
+import com.mysite.hosung.domain.User;
 import com.mysite.hosung.repository.AnswerRepository;
 import com.mysite.hosung.service.questionService.QuestionQueryService;
+import com.mysite.hosung.service.userService.UserQueryService;
 import com.mysite.hosung.web.dto.AnswerRequestDTO;
+import java.security.Principal;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,15 +17,20 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class AnswerCommandServiceImpl implements AnswerCommandService {
 
+    private final UserQueryService userQueryService;
     private final QuestionQueryService questionQueryService;
     private final AnswerRepository answerRepository;
 
+
     @Override
-    public void create(AnswerRequestDTO.AnswerFormDTO answerFormDTO, Long id) {
+    public void create(AnswerRequestDTO.AnswerFormDTO answerFormDTO, Long id, Principal principal) {
         Question question = questionQueryService.getQuestion(id);
+        User author = userQueryService.getUser(principal.getName());
+
         answerRepository.save(Answer.builder()
                         .question(question)
                         .content(answerFormDTO.getContent())
+                        .author(author)
                 .build());
 
     }

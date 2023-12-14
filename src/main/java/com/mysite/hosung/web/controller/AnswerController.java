@@ -1,7 +1,9 @@
 package com.mysite.hosung.web.controller;
 
+import com.mysite.hosung.domain.User;
 import com.mysite.hosung.service.answerService.AnswerCommandService;
 import com.mysite.hosung.service.questionService.QuestionQueryService;
+import com.mysite.hosung.service.userService.UserQueryService;
 import com.mysite.hosung.web.dto.AnswerRequestDTO;
 import jakarta.validation.Valid;
 import java.security.Principal;
@@ -19,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class AnswerController {
     private final AnswerCommandService answerCommandService;
     private final QuestionQueryService questionQueryService;
+    private final UserQueryService userQueryService;
 
     @PostMapping("/create/{id}")
     public String createAnswer(Model model, @PathVariable("id") Long id,
@@ -30,7 +33,7 @@ public class AnswerController {
             return "question_detail";
         }
 
-        answerCommandService.create(answerFormDTO, id);
+        answerCommandService.create(answerFormDTO, id, principal);
         return String.format("redirect:/question/detail/%s", id);
     }
 }
