@@ -35,5 +35,10 @@ public class QuestionCommandServiceImpl implements QuestionCommandService{
         questionRepository.save(question);
     }
 
+    @Override
+    public void delete(Question question) {
+        questionRepository.delete(question);
+    }
+
 
 }

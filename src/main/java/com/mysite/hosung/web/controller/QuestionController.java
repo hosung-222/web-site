@@ -89,5 +89,15 @@ public class QuestionController {
         return String.format("redirect:/question/detail/%s", id);
     }
 
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/delete/{id}")
+    public String questionDelete(Principal principal, @PathVariable("id")Long id){
+        Question question = questionQueryService.getQuestion(id);
+        if (!question.getAuthor().getName().equals(principal.getName())){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "삭제권한이 없습니다.");
+        }
+        questionCommandService.delete(question);
+        return "redirect:/";
+    }
 
 }

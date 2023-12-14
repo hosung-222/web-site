@@ -9,4 +9,6 @@ public interface QuestionCommandService {
 
     void create(QuestionRequestDTO.QuestionFormDTO questionFormDTO, Principal principal);
     void modify(Question question, QuestionFormDTO questionFormDTO);
+
+    void delete(Question question);
 }
