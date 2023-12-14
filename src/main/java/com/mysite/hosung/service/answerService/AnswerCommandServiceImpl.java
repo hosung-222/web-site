@@ -1,5 +1,6 @@
 package com.mysite.hosung.service.answerService;
 
+import com.mysite.hosung.apiPayload.DataNotFoundException;
 import com.mysite.hosung.domain.Answer;
 import com.mysite.hosung.domain.Question;
 import com.mysite.hosung.domain.User;
@@ -8,6 +9,7 @@ import com.mysite.hosung.service.questionService.QuestionQueryService;
 import com.mysite.hosung.service.userService.UserQueryService;
 import com.mysite.hosung.web.dto.AnswerRequestDTO;
 import java.security.Principal;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,5 +35,18 @@ public class AnswerCommandServiceImpl implements AnswerCommandService {
                         .author(author)
                 .build());
 
+    }
+
+    @Override
+    public void modify(Long id, AnswerRequestDTO.AnswerFormDTO answerFormDTO) {
+        Optional<Answer> target = answerRepository.findById(id);
+        if (target.isPresent()){
+            Answer answer = target.get();
+            answer.modify(answerFormDTO.getContent());
+            answerRepository.save(answer);
+
+        }else {
+            throw new DataNotFoundException("answer not found");
+        }
     }
 }
