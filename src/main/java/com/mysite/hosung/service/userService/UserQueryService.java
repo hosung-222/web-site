@@ -7,4 +7,5 @@ import java.util.Optional;
 public interface UserQueryService {
     boolean checkPasswordEquals(UserCreateDTO userCreateDTO);
 
+    User getUser(String name);
 }

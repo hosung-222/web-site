@@ -4,6 +4,7 @@ import com.mysite.hosung.service.answerService.AnswerCommandService;
 import com.mysite.hosung.service.questionService.QuestionQueryService;
 import com.mysite.hosung.web.dto.AnswerRequestDTO;
 import jakarta.validation.Valid;
+import java.security.Principal;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,7 +23,8 @@ public class AnswerController {
     @PostMapping("/create/{id}")
     public String createAnswer(Model model, @PathVariable("id") Long id,
                                @Valid AnswerRequestDTO.AnswerFormDTO answerFormDTO,
-                               BindingResult bindingResult){
+                               BindingResult bindingResult,
+                               Principal principal){
         if (bindingResult.hasErrors()){
             model.addAttribute("question", questionQueryService.getQuestion(id));
             return "question_detail";
