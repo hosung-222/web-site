@@ -8,6 +8,7 @@ import com.mysite.hosung.web.dto.QuestionRequestDTO;
 import jakarta.validation.Valid;
 import java.security.Principal;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -38,11 +39,14 @@ public class QuestionController {
         return "question_detail";
     }
 
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/create")
     public String createQuestion(QuestionRequestDTO.QuestionFormDTO questionFormDTO) {
         return "question_form";
     }
 
+
+    @PreAuthorize("isAuthenticated()")
     @PostMapping("/create")
     public String createQuestion(@Valid QuestionRequestDTO.QuestionFormDTO questionFormDTO,
                                  BindingResult bindingResult,

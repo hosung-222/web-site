@@ -8,6 +8,7 @@ import com.mysite.hosung.web.dto.AnswerRequestDTO;
 import jakarta.validation.Valid;
 import java.security.Principal;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -23,6 +24,7 @@ public class AnswerController {
     private final QuestionQueryService questionQueryService;
     private final UserQueryService userQueryService;
 
+    @PreAuthorize("isAuthenticated()")
     @PostMapping("/create/{id}")
     public String createAnswer(Model model, @PathVariable("id") Long id,
                                @Valid AnswerRequestDTO.AnswerFormDTO answerFormDTO,
