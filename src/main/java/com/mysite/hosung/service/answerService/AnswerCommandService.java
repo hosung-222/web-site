@@ -13,5 +13,5 @@ public interface AnswerCommandService {
 
     void delete(Long id);
 
-    void like(Answer answer, User user);
+    void like(Answer answer, Principal principal);
 }

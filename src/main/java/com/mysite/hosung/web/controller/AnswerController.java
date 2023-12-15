@@ -28,9 +28,7 @@ import org.springframework.web.server.ResponseStatusException;
 @RequestMapping("/answer")
 public class AnswerController {
     private final AnswerCommandService answerCommandService;
-    private final QuestionQueryService questionQueryService;
     private final AnswerQueryService answerQueryService;
-    private final UserQueryService userQueryService;
 
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/create/{id}")
@@ -38,8 +36,9 @@ public class AnswerController {
                                @Valid AnswerRequestDTO.AnswerFormDTO answerFormDTO,
                                BindingResult bindingResult,
                                Principal principal){
+
         if (bindingResult.hasErrors()){
-            model.addAttribute("question", questionQueryService.getQuestion(id));
+            model.addAttribute("question", answerQueryService.getQuestion(id));
             return "question_detail";
         }
 
@@ -93,12 +92,7 @@ public class AnswerController {
     @GetMapping("/vote/{id}")
     public String answerLike(Principal principal, @PathVariable("id")Long id){
         Answer answer = answerQueryService.getAnswer(id);
-        User user = userQueryService.getUser(principal.getName());
-        if (!answerQueryService.isLiked(answer, user)){
-            return String.format("redirect:/question/detail/%s", answer.getQuestion().getId());
-        }
-
-        answerCommandService.like(answer, user);
+        answerCommandService.like(answer, principal);
         return String.format("redirect:/question/detail/%s", answer.getQuestion().getId());
     }
 }

@@ -26,7 +26,6 @@ public class AnswerCommandServiceImpl implements AnswerCommandService {
     private final AnswerRepository answerRepository;
     private final AnswerLikeRepository answerLikeRepository;
 
-
     @Override
     public void create(AnswerRequestDTO.AnswerFormDTO answerFormDTO, Long id, Principal principal) {
         Question question = questionQueryService.getQuestion(id);
@@ -54,11 +53,14 @@ public class AnswerCommandServiceImpl implements AnswerCommandService {
     }
 
     @Override
-    public void like(Answer answer, User user) {
-        AnswerLike answerLike = AnswerLike.builder()
-                .answer(answer)
-                .user(user)
-                .build();
-        answerLikeRepository.save(answerLike);
+    public void like(Answer answer, Principal principal) {
+        User user = userQueryService.getUser(principal.getName());
+        if (!answerQueryService.isLiked(answer,principal)) {
+            AnswerLike answerLike = AnswerLike.builder()
+                    .answer(answer)
+                    .user(user)
+                    .build();
+            answerLikeRepository.save(answerLike);
+        }
     }
 }
