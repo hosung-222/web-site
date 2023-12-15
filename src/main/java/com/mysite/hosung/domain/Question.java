@@ -1,6 +1,7 @@
 package com.mysite.hosung.domain;
 
 import com.mysite.hosung.domain.common.BaseEntity;
+import com.mysite.hosung.domain.mapping.QuestionLike;
 import com.mysite.hosung.web.dto.QuestionRequestDTO.QuestionFormDTO;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -36,6 +37,9 @@ public class Question extends BaseEntity {
 
     @ManyToOne
     private User author;
+
+    @OneToMany(mappedBy = "question", cascade = CascadeType.REMOVE)
+    private List<QuestionLike> questionLikes;
 
     public void modify(QuestionFormDTO questionFormDTO){
         this.subject = questionFormDTO.getSubject();

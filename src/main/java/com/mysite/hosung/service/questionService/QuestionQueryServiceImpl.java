@@ -2,6 +2,9 @@ package com.mysite.hosung.service.questionService;
 
 import com.mysite.hosung.apiPayload.DataNotFoundException;
 import com.mysite.hosung.domain.Question;
+import com.mysite.hosung.domain.User;
+import com.mysite.hosung.domain.mapping.QuestionLike;
+import com.mysite.hosung.repository.QuestionLikeRepository;
 import com.mysite.hosung.repository.QuestionRepository;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 public class QuestionQueryServiceImpl implements QuestionQueryService{
     private final QuestionRepository questionRepository;
+    private final QuestionLikeRepository questionLikeRepository;
 
     @Override
     public Page<Question> getQuestionList(int page) {
@@ -36,6 +40,15 @@ public class QuestionQueryServiceImpl implements QuestionQueryService{
         }else {
             throw new DataNotFoundException("question not found");
         }
+    }
 
+    @Override
+    public boolean isLiked(Question question, User user) {
+        Optional<QuestionLike> questionLike = questionLikeRepository.findByQuestionAndUser(question, user);
+        if (questionLike.isEmpty()){
+            return true;
+        }else {
+            return false;
+        }
     }
 }

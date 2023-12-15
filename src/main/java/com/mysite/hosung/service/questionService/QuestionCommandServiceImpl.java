@@ -2,6 +2,8 @@ package com.mysite.hosung.service.questionService;
 
 import com.mysite.hosung.domain.Question;
 import com.mysite.hosung.domain.User;
+import com.mysite.hosung.domain.mapping.QuestionLike;
+import com.mysite.hosung.repository.QuestionLikeRepository;
 import com.mysite.hosung.repository.QuestionRepository;
 import com.mysite.hosung.service.userService.UserQueryService;
 import com.mysite.hosung.web.dto.QuestionRequestDTO;
@@ -17,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class QuestionCommandServiceImpl implements QuestionCommandService{
     private final UserQueryService userQueryService;
     private final QuestionRepository questionRepository;
+    private final QuestionLikeRepository questionLikeRepository;
 
     @Override
     public void create(QuestionRequestDTO.QuestionFormDTO questionFormDTO, Principal principal) {
@@ -38,6 +41,16 @@ public class QuestionCommandServiceImpl implements QuestionCommandService{
     @Override
     public void delete(Question question) {
         questionRepository.delete(question);
+    }
+
+    @Override
+    public void like(Question question, User user) {
+        QuestionLike questionLike = QuestionLike.builder()
+                .question(question)
+                .user(user)
+                .build();
+
+        questionLikeRepository.save(questionLike);
     }
 
 

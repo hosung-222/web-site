@@ -1,8 +1,10 @@
 package com.mysite.hosung.web.controller;
 
 import com.mysite.hosung.domain.Question;
+import com.mysite.hosung.domain.User;
 import com.mysite.hosung.service.questionService.QuestionCommandService;
 import com.mysite.hosung.service.questionService.QuestionQueryService;
+import com.mysite.hosung.service.userService.UserQueryService;
 import com.mysite.hosung.web.dto.AnswerRequestDTO;
 import com.mysite.hosung.web.dto.QuestionRequestDTO;
 import com.mysite.hosung.web.dto.QuestionRequestDTO.QuestionFormDTO;
@@ -27,6 +29,7 @@ import org.springframework.web.server.ResponseStatusException;
 public class QuestionController {
     private final QuestionQueryService questionQueryService;
     private final QuestionCommandService questionCommandService;
+    private final UserQueryService userQueryService;
 
     @GetMapping("/list")
     public String list(Model model, @RequestParam(value = "page", defaultValue = "0") int page){
@@ -98,6 +101,19 @@ public class QuestionController {
         }
         questionCommandService.delete(question);
         return "redirect:/";
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/vote/{id}")
+    public String questionLike(Principal principal, @PathVariable("id") Long id){
+        Question question = questionQueryService.getQuestion(id);
+        User user = userQueryService.getUser(principal.getName());
+        if (!questionQueryService.isLiked(question, user)){
+            return String.format("redirect:/question/detail/%s", id);
+        }
+        questionCommandService.like(question, user);
+
+        return String.format("redirect:/question/detail/%s", id);
     }
 
 }
