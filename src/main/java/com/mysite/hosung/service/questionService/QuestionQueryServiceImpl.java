@@ -47,8 +47,7 @@ public class QuestionQueryServiceImpl implements QuestionQueryService{
         Optional<QuestionLike> questionLike = questionLikeRepository.findByQuestionAndUser(question, user);
         if (questionLike.isEmpty()){
             return true;
-        }else {
-            return false;
         }
+        return false;
     }
 }

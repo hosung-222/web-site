@@ -1,6 +1,6 @@
 package com.mysite.hosung.domain.mapping;
 
-import com.mysite.hosung.domain.Question;
+import com.mysite.hosung.domain.Answer;
 import com.mysite.hosung.domain.User;
 import com.mysite.hosung.domain.common.BaseEntity;
 import jakarta.persistence.Entity;
@@ -8,7 +8,6 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -17,18 +16,16 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Builder
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @Getter
-public class QuestionLike extends BaseEntity {
+public class AnswerLike extends BaseEntity {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "student_id")
     private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "question_id")
-    private Question question;
+    private Answer answer;
 }

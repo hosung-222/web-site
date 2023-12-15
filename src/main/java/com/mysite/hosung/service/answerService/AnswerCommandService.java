@@ -1,5 +1,6 @@
 package com.mysite.hosung.service.answerService;
 
+import com.mysite.hosung.domain.Answer;
 import com.mysite.hosung.domain.User;
 import com.mysite.hosung.web.dto.AnswerRequestDTO;
 import java.security.Principal;
@@ -11,4 +12,6 @@ public interface AnswerCommandService {
     void modify(Long id, AnswerRequestDTO.AnswerFormDTO answerFormDTO);
 
     void delete(Long id);
+
+    void like(Answer answer, User user);
 }

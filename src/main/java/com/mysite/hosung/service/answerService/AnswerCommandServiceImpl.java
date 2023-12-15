@@ -4,6 +4,8 @@ import com.mysite.hosung.apiPayload.DataNotFoundException;
 import com.mysite.hosung.domain.Answer;
 import com.mysite.hosung.domain.Question;
 import com.mysite.hosung.domain.User;
+import com.mysite.hosung.domain.mapping.AnswerLike;
+import com.mysite.hosung.repository.AnswerLikeRepository;
 import com.mysite.hosung.repository.AnswerRepository;
 import com.mysite.hosung.service.questionService.QuestionQueryService;
 import com.mysite.hosung.service.userService.UserQueryService;
@@ -22,6 +24,7 @@ public class AnswerCommandServiceImpl implements AnswerCommandService {
     private final UserQueryService userQueryService;
     private final QuestionQueryService questionQueryService;
     private final AnswerRepository answerRepository;
+    private final AnswerLikeRepository answerLikeRepository;
 
 
     @Override
@@ -48,5 +51,14 @@ public class AnswerCommandServiceImpl implements AnswerCommandService {
     public void delete(Long id) {
         Answer answer = answerQueryService.getAnswer(id);
         answerRepository.delete(answer);
+    }
+
+    @Override
+    public void like(Answer answer, User user) {
+        AnswerLike answerLike = AnswerLike.builder()
+                .answer(answer)
+                .user(user)
+                .build();
+        answerLikeRepository.save(answerLike);
     }
 }

@@ -30,6 +30,7 @@ public class AnswerController {
     private final AnswerCommandService answerCommandService;
     private final QuestionQueryService questionQueryService;
     private final AnswerQueryService answerQueryService;
+    private final UserQueryService userQueryService;
 
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/create/{id}")
@@ -85,6 +86,19 @@ public class AnswerController {
         }
 
         answerCommandService.delete(id);
+        return String.format("redirect:/question/detail/%s", answer.getQuestion().getId());
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/vote/{id}")
+    public String answerLike(Principal principal, @PathVariable("id")Long id){
+        Answer answer = answerQueryService.getAnswer(id);
+        User user = userQueryService.getUser(principal.getName());
+        if (!answerQueryService.isLiked(answer, user)){
+            return String.format("redirect:/question/detail/%s", answer.getQuestion().getId());
+        }
+
+        answerCommandService.like(answer, user);
         return String.format("redirect:/question/detail/%s", answer.getQuestion().getId());
     }
 }
