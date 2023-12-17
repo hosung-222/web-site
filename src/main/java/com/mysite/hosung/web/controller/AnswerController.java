@@ -94,6 +94,7 @@ public class AnswerController {
     public String answerLike(Principal principal, @PathVariable("id")Long id){
         Answer answer = answerQueryService.getAnswer(id);
         answerCommandService.like(answer, principal);
-        return String.format("redirect:/question/detail/%s", answer.getQuestion().getId());
+        return String.format("redirect:/question/detail/%s#answer_%s",
+                answer.getQuestion().getId(), answer.getId());
     }
 }
