@@ -20,6 +20,7 @@ public class QuestionCommandServiceImpl implements QuestionCommandService{
     private final UserQueryService userQueryService;
     private final QuestionRepository questionRepository;
     private final QuestionLikeRepository questionLikeRepository;
+    private final QuestionQueryService questionQueryService;
 
     @Override
     public void create(QuestionRequestDTO.QuestionFormDTO questionFormDTO, Principal principal) {
@@ -44,13 +45,15 @@ public class QuestionCommandServiceImpl implements QuestionCommandService{
     }
 
     @Override
-    public void like(Question question, User user) {
-        QuestionLike questionLike = QuestionLike.builder()
-                .question(question)
-                .user(user)
-                .build();
-
-        questionLikeRepository.save(questionLike);
+    public void like(Question question, Principal principal) {
+        User user = userQueryService.getUser(principal.getName());
+        if (!questionQueryService.isLiked(question, user)){
+            QuestionLike questionLike = QuestionLike.builder()
+                    .question(question)
+                    .user(user)
+                    .build();
+            questionLikeRepository.save(questionLike);
+        }
     }
 
 

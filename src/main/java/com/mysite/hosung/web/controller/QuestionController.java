@@ -29,7 +29,6 @@ import org.springframework.web.server.ResponseStatusException;
 public class QuestionController {
     private final QuestionQueryService questionQueryService;
     private final QuestionCommandService questionCommandService;
-    private final UserQueryService userQueryService;
 
     @GetMapping("/list")
     public String list(Model model, @RequestParam(value = "page", defaultValue = "0") int page){
@@ -107,11 +106,7 @@ public class QuestionController {
     @GetMapping("/vote/{id}")
     public String questionLike(Principal principal, @PathVariable("id") Long id){
         Question question = questionQueryService.getQuestion(id);
-        User user = userQueryService.getUser(principal.getName());
-        if (!questionQueryService.isLiked(question, user)){
-            return String.format("redirect:/question/detail/%s", id);
-        }
-        questionCommandService.like(question, user);
+        questionCommandService.like(question, principal);
 
         return String.format("redirect:/question/detail/%s", id);
     }

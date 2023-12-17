@@ -11,5 +11,5 @@ public interface QuestionCommandService {
     void create(QuestionRequestDTO.QuestionFormDTO questionFormDTO, Principal principal);
     void modify(Question question, QuestionFormDTO questionFormDTO);
     void delete(Question question);
-    void like(Question question, User user);
+    void like(Question question, Principal principal);
 }
