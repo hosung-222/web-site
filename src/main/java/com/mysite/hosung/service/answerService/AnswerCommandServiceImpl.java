@@ -1,6 +1,5 @@
 package com.mysite.hosung.service.answerService;
 
-import com.mysite.hosung.apiPayload.DataNotFoundException;
 import com.mysite.hosung.domain.Answer;
 import com.mysite.hosung.domain.Question;
 import com.mysite.hosung.domain.User;
@@ -10,8 +9,8 @@ import com.mysite.hosung.repository.AnswerRepository;
 import com.mysite.hosung.service.questionService.QuestionQueryService;
 import com.mysite.hosung.service.userService.UserQueryService;
 import com.mysite.hosung.web.dto.AnswerRequestDTO;
+import com.mysite.hosung.web.dto.AnswerRequestDTO.AnswerFormDTO;
 import java.security.Principal;
-import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,11 +26,11 @@ public class AnswerCommandServiceImpl implements AnswerCommandService {
     private final AnswerLikeRepository answerLikeRepository;
 
     @Override
-    public void create(AnswerRequestDTO.AnswerFormDTO answerFormDTO, Long id, Principal principal) {
+    public Answer create(AnswerFormDTO answerFormDTO, Long id, Principal principal) {
         Question question = questionQueryService.getQuestion(id);
         User author = userQueryService.getUser(principal.getName());
 
-        answerRepository.save(Answer.builder()
+        return answerRepository.save(Answer.builder()
                         .question(question)
                         .content(answerFormDTO.getContent())
                         .author(author)

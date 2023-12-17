@@ -42,8 +42,8 @@ public class AnswerController {
             return "question_detail";
         }
 
-        answerCommandService.create(answerFormDTO, id, principal);
-        return String.format("redirect:/question/detail/%s", id);
+        Answer answer = answerCommandService.create(answerFormDTO, id, principal);
+        return String.format("redirect:/question/detail/%s#answer_%s", id, answer.getId());
     }
 
     @PreAuthorize("isAuthenticated()")
@@ -73,7 +73,8 @@ public class AnswerController {
 
         answerCommandService.modify(id, answerFormDTO);
 
-        return String.format("redirect:/question/detail/%s", answer.getQuestion().getId());
+        return String.format("redirect:/question/detail/%s#answer_%s",
+                answer.getQuestion().getId(), answer.getId());
     }
 
     @PreAuthorize("isAuthenticated()")
