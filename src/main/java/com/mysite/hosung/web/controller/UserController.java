@@ -35,13 +35,14 @@ public class UserController {
             bindingResult.rejectValue("password2", "passwordIncorrect", "패스워드가 일치하지 않습니다.");
             return "signup_form";
         }
-
         try {
             userCommandService.create(userCreateDTO);
+
         }catch (DataIntegrityViolationException e){ // 중복일 경우 예외 처리
             e.printStackTrace();
             bindingResult.reject("signupFailed", "이미 등록된 사용자 입니다.");
             return "signup_form";
+
         }catch (Exception e){
             e.printStackTrace();
             bindingResult.reject("signupFailed", e.getMessage());
