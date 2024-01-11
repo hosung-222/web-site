@@ -29,18 +29,16 @@ public class SecurityConfig {
                 .logout((logout)->logout
                         .logoutRequestMatcher(new AntPathRequestMatcher("/user/logout"))
                         .logoutSuccessUrl("/")
-                        .invalidateHttpSession(true))
-        ;
-
-        return http.build();
-    }
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
-
+                        .invalidateHttpSession(true));
         http
                 .sessionManagement((auth) -> auth   // 다중 로그인 설정
                         .maximumSessions(1) // 하나의 아이디에 대한 다중 로그인 허용 개수
                         .maxSessionsPreventsLogin(true)); // true : 초과시 새로운 로그인 차단 false : 초과시 기존 세션 하나 삭제
+
+
+        http
+                .sessionManagement((auth) -> auth
+                        .sessionFixation().changeSessionId());
 
         return http.build();
     }
